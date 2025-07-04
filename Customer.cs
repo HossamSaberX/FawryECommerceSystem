@@ -56,12 +56,13 @@ class Customer
         return shippables;
     }
 
-    private double processShipping(List<Shippable> shippables)
+    private double processShipping()
     {
+        var shippables = getShippableProducts();
         if (shippables.Count > 0)
         {
-            ShippingService shippingService = new ShippingService(50);
-            shippingService.ship(shippables);
+            ShippingService shippingService = new ShippingService(30);
+            shippingService.ship(cart);
             return shippingService.ShippingCost;
         }
         else
@@ -79,23 +80,28 @@ class Customer
             return;
         }
 
-        double total = totalPrice();
-        var shippables = getShippableProducts();
-        double shippingCost = processShipping(shippables);
-        double grandTotal = total + shippingCost;
+        double shippingCost = processShipping();
+        double subtotal = totalPrice();
+        double amount = subtotal + shippingCost;
 
-        if (Balance < grandTotal)
+        if (Balance < amount)
         {
-            Console.WriteLine($"Not enough balance. Required: {grandTotal}, Available: {Balance}");
+            Console.WriteLine($"Not enough balance. Required: {amount}, Available: {Balance}");
             return;
         }
 
-        Balance -= grandTotal;
+        Balance -= amount;
 
-        Console.WriteLine($"Order total: {total}");
-        Console.WriteLine($"Shipping cost: {shippingCost}");
-        Console.WriteLine($"Grand total: {grandTotal}");
-        Console.WriteLine($"Remaining balance: {Balance}");
+        Console.WriteLine("** Checkout receipt **");
+        foreach (var item in cart)
+        {
+            Console.WriteLine($"{item.Value}x {item.Key.Name} {item.Key.Price * item.Value}");
+        }
+        Console.WriteLine("----------------------");
+        Console.WriteLine($"Subtotal {subtotal}");
+        Console.WriteLine($"Shipping {shippingCost}");
+        Console.WriteLine($"Amount {amount}");
+        
         cart.Clear();
     }
 
