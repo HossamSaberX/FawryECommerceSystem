@@ -1,0 +1,4 @@
+interface IExpirable
+{
+    DateTime getExpirationDate();
+}
