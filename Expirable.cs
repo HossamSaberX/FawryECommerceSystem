@@ -7,8 +7,6 @@ class Expirable : Product, IExpirable
         ExpirationDate = expirationDate;
     }
 
-    public DateTime getExpirationDate()
-    {
-        return ExpirationDate;
-    }
+    public DateTime getExpirationDate() => ExpirationDate;
+    public bool isExpired() => DateTime.Now > ExpirationDate;
 }

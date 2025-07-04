@@ -25,9 +25,15 @@ class Customer
             return;
         }
 
+        if (product is IExpirable expirableProduct && expirableProduct.isExpired())
+        {
+            Console.WriteLine($"expired item {product.Name}.");
+            return;
+        }
 
         if (cart.ContainsKey(product)) cart[product] += quantity;
         else cart[product] = quantity;
+        product.updateQuantity(quantity);
     }
 
     public double totalPrice()

@@ -11,5 +11,10 @@ class Product
         Quantity = quantity;
     }
 
+    public void updateQuantity(int quantity)
+    {
+        if (Quantity >= quantity) Quantity -= quantity;
+    }
+
 }
 

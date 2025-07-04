@@ -14,6 +14,7 @@ class ShippingService
             Console.WriteLine("No products to ship.");
             return;
         }
+        Console.WriteLine("** Shipment notice **");
 
         double totalWeight = 0;
         foreach (var product in products)
